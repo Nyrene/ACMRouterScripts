@@ -1,0 +1,233 @@
+root@Nagasaki:/home/nuacm# man screen
+[?1049h[?1h=SCREEN(1)                                                                      SCREEN(1)[m
+[m
+[1mNAME[0m[m
+       screen - screen manager with VT100/ANSI terminal emulation[m
+[m
+[1mSYNOPSIS[0m[m
+       [1mscreen[0m [ [1m-[0m[4moptions[24m ] [ [4mcmd[24m [ [4margs[24m ] ][m
+       [1mscreen[0m [1m-r[0m [[[4mpid[24m[1m.[0m][4mtty[24m[[1m.[0m[4mhost[24m]][m
+       [1mscreen[0m [1m-r[0m [4msessionowner[24m[1m/[0m[[[4mpid[24m[1m.[0m][4mtty[24m[[1m.[0m[4mhost[24m]][m
+[m
+[1mDESCRIPTION[0m[m
+       [4mScreen[24m  is  a  full-screen  window  manager  that multiplexes a physical terminal[m
+       between several processes (typically interactive shells).  Each virtual  terminal[m
+       provides  the functions of a DEC VT100 terminal and, in addition, several control[m
+       functions from the ISO 6429 (ECMA 48, ANSI X3.64) and ISO  2022  standards  (e.g.[m
+       insert/delete  line and support for multiple character sets).  There is a scroll‐[m
+       back history buffer for each virtual terminal and a copy-and-paste mechanism that[m
+       allows moving text regions between windows.[m
+[m
+       When  [4mscreen[24m  is  called,  it  creates a single window with a shell in it (or the[m
+       specified command) and then gets out of your way so that you can use the  program[m
+       as  you normally would.  Then, at any time, you can create new (full-screen) win‐[m
+       dows with other programs in them (including more shells), kill existing  windows,[m
+       view  a  list  of  windows,  turn  output logging on and off, copy-and-paste text[m
+       between windows, view the scrollback history, switch between windows in  whatever[m
+       manner  you  wish,  etc. All windows run their programs completely independent of[m
+       each other. Programs continue to run when their window is currently  not  visible[m
+       and  even  when  the  whole  [4mscreen[24m session is detached from the user's terminal.[m
+       When a program terminates, [4mscreen[24m (per default) kills the window  that  contained[m
+       it.   If  this window was in the foreground, the display switches to the previous[m
+       window; if none are left, [4mscreen[24m exits.[m
+[m
+       Everything you type is sent to the program running in the  current  window.   The[m
+       only exception to this is the one keystroke that is used to initiate a command to[m
+       the window manager.  By default, each command begins with a  control-a  (abbrevi‐[m
+       ated C-a from now on), and is followed by one other keystroke.  The command char‐[m
+       acter and all the key bindings can be fully customized to be anything  you  like,[m
+       though they are always two characters in length.[m
+[m
+       [4mScreen[24m does not understand the prefix "C-" to mean control.  Please use the caret[m
+       notation ("^A" instead of "C-a") as arguments to e.g. the [4mescape[24m command  or  the[m
+       [4m-e[24m option.  [4mScreen[24m will also print out control characters in caret notation.[m
+[m
+       The  standard  way to create a new window is to type "C-a c".  This creates a new[m
+       window running a shell and switches to that window immediately, regardless of the[m
+       state  of the process running in the current window.  Similarly, you can create a[m
+       new window with a custom command in it by first binding the  command  to  a  key‐[m
+       stroke  (in your .screenrc file or at the "C-a :" command line) and then using it[m
+       just like the "C-a c" command.  In addition, new windows can be created  by  run‐[m
+       ning a command like:[m
+[m
+[3m Manual page screen(1) line 1 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K              screen emacs prog.c[m
+[3m Manual page screen(1) line 2 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 5 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       from  a  shell  prompt  within  a  previously  created window.  This will not run[m
+[3m Manual page screen(1) line 6 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       another copy of [4mscreen[24m, but will instead supply the command name  and  its  argu‐[m
+[3m Manual page screen(1) line 7 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       ments to the window manager (specified in the $STY environment variable) who will[m
+[3m Manual page screen(1) line 10 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       use it to create the new window.  The above example would start the emacs  editor[m
+[3m Manual page screen(1) line 11 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       (editing prog.c) and switch to its window. - Note that you cannot transport envi‐[m
+[3m Manual page screen(1) line 12 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       ronment variables from the invoking shell  to  the  application  (emacs  in  this[m
+[3m Manual page screen(1) line 13 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       case), because it is forked from the parent screen process, not from the invoking[m
+[3m Manual page screen(1) line 14 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       shell.[m
+[3m Manual page screen(1) line 17 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 18 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       If "/var/run/utmp" is writable by [4mscreen[24m, an appropriate record will  be  written[m
+[3m Manual page screen(1) line 19 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       to this file for each window, and removed when the window is terminated.  This is[m
+[3m Manual page screen(1) line 20 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       useful for working with "talk", "script", "shutdown", "rsend", "sccs"  and  other[m
+[3m Manual page screen(1) line 21 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       similar  programs  that  use  the  utmp file to determine who you are. As long as[m
+[3m Manual page screen(1) line 22 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [4mscreen[24m is active on your terminal, the terminal's own record is removed from  the[m
+[3m Manual page screen(1) line 23 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       utmp file. See also "C-a L".[m
+[3m Manual page screen(1) line 24 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 25 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[1mGETTING[0m [1mSTARTED[0m[m
+[3m Manual page screen(1) line 26 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       Before  you  begin  to  use  [4mscreen[24m  you'll  need to make sure you have correctly[m
+[3m Manual page screen(1) line 27 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       selected your terminal type, just as you would  for  any  other  termcap/terminfo[m
+[3m Manual page screen(1) line 28 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       program.  (You can do this by using [4mtset[24m for example.)[m
+[3m Manual page screen(1) line 29 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 30 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       If you're impatient and want to get started without doing a lot more reading, you[m
+[3m Manual page screen(1) line 31 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       should remember this one command:  "C-a ?".  Typing  these  two  characters  will[m
+[3m Manual page screen(1) line 32 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       display  a  list  of  the available [4mscreen[24m commands and their bindings. Each key‐[m
+[3m Manual page screen(1) line 33 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       stroke is discussed in the section "DEFAULT KEY  BINDINGS".  The  manual  section[m
+[3m Manual page screen(1) line 34 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       "CUSTOMIZATION" deals with the contents of your .screenrc.[m
+[3m Manual page screen(1) line 35 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 36 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       If  your  terminal  is  a  "true" auto-margin terminal (it doesn't allow the last[m
+[3m Manual page screen(1) line 37 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       position on the screen to be updated without scrolling the screen) consider using[m
+[3m Manual page screen(1) line 38 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       a  version of your terminal's termcap that has automatic margins turned [4moff[24m. This[m
+[3m Manual page screen(1) line 39 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       will ensure an accurate and optimal update of the screen  in  all  circumstances.[m
+[3m Manual page screen(1) line 40 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       Most  terminals nowadays have "magic" margins (automatic margins plus usable last[m
+[3m Manual page screen(1) line 41 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       column). This is the VT100 style type and perfectly suited for  [4mscreen[24m.   If  all[m
+[3m Manual page screen(1) line 42 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       you've got is a "true" auto-margin terminal [4mscreen[24m will be content to use it, but[m
+[3m Manual page screen(1) line 43 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       updating a character put into the last position on the screen may not be possible[m
+[3m Manual page screen(1) line 44 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       until  the  screen scrolls or the character is moved into a safe position in some[m
+[3m Manual page screen(1) line 45 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       other way. This delay can be shortened by using a terminal with  insert-character[m
+[3m Manual page screen(1) line 46 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       capability.[m
+[3m Manual page screen(1) line 47 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 48 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[1mCOMMAND-LINE[0m [1mOPTIONS[0m[m
+[3m Manual page screen(1) line 49 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       Screen has the following command-line options:[m
+[3m Manual page screen(1) line 50 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 51 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-a[0m   include [4mall[24m capabilities (with some minor exceptions) in each window's term‐[m
+[3m Manual page screen(1) line 52 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            cap, even if [4mscreen[24m must redraw parts of the display in order to implement a[m
+[3m Manual page screen(1) line 53 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            function.[m
+[3m Manual page screen(1) line 54 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 55 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-A[0m   Adapt  the  sizes  of  all  windows to the size of the current terminal.  By[m
+[3m Manual page screen(1) line 56 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            default, [4mscreen[24m tries to restore its old  window  sizes  when  attaching  to[m
+[3m Manual page screen(1) line 57 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            resizable terminals (those with "WS" in its description, e.g. suncmd or some[m
+[3m Manual page screen(1) line 58 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            xterm).[m
+[3m Manual page screen(1) line 59 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 60 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-c[0m [4mfile[24m[m
+[3m Manual page screen(1) line 61 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            override the default configuration file from "$HOME/.screenrc" to [4mfile[24m.[m
+[3m Manual page screen(1) line 62 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 63 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-d[0m|[1m-D[0m [[4mpid.tty.host[24m][m
+[3m Manual page screen(1) line 64 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            does not start [4mscreen[24m, but detaches the elsewhere running [4mscreen[24m session. It[m
+[3m Manual page screen(1) line 65 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            has the same effect as typing "C-a d" from [4mscreen[24m's controlling terminal. [1m-D[0m[m
+[3m Manual page screen(1) line 66 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            is the equivalent to the power detach key.  If no session can  be  detached,[m
+[3m Manual page screen(1) line 67 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            this  option  is ignored. In combination with the [1m-r[0m/[1m-R[0m option more powerful[m
+[3m Manual page screen(1) line 68 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            effects can be achieved:[m
+[3m Manual page screen(1) line 69 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 70 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-d[0m [1m-r[0m   Reattach a session and if necessary detach it first.[m
+[3m Manual page screen(1) line 71 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 72 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-d[0m [1m-R[0m   Reattach a session and if necessary detach or even create it first.[m
+[3m Manual page screen(1) line 73 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 74 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-d[0m [1m-RR[0m  Reattach a session and if necessary detach or create it.  Use  the  first[m
+[3m Manual page screen(1) line 75 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K               session if more than one session is available.[m
+[3m Manual page screen(1) line 78 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 79 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-D[0m [1m-r[0m   Reattach a session. If necessary detach and logout remotely first.[m
+[3m Manual page screen(1) line 80 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 81 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-D[0m [1m-R[0m   Attach  here and now. In detail this means: If a session is running, then[m
+[3m Manual page screen(1) line 82 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K               reattach. If necessary detach and logout remotely first.  If it  was  not[m
+[3m Manual page screen(1) line 83 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K               running create it and notify the user. This is the author's favorite.[m
+[3m Manual page screen(1) line 84 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 85 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-D[0m [1m-RR[0m  Attach here and now. Whatever that means, just do it.[m
+[3m Manual page screen(1) line 86 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 87 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            Note: It is always a good idea to check the status of your sessions by means[m
+[3m Manual page screen(1) line 88 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            of "screen -list".[m
+[3m Manual page screen(1) line 89 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 90 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-e[0m [4mxy[24m[m
+[3m Manual page screen(1) line 91 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            specifies the command character to be [4mx[24m and the character generating a  lit‐[m
+[3m Manual page screen(1) line 92 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            eral  command  character to [4my[24m (when typed after the command character).  The[m
+[3m Manual page screen(1) line 93 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            default is "C-a" and `a', which can be specified as "-e^Aa".  When  creating[m
+[3m Manual page screen(1) line 94 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            a  [4mscreen[24m  session,  this  option  sets  the default command character. In a[m
+[3m Manual page screen(1) line 95 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            multiuser session all users added will start off with this  command  charac‐[m
+[3m Manual page screen(1) line 96 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            ter.  But  when attaching to an already running session, this option changes[m
+[3m Manual page screen(1) line 97 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            only the command character of the attaching user.  This option is equivalent[m
+[3m Manual page screen(1) line 98 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            to either the commands "defescape" or "escape" respectively.[m
+[3m Manual page screen(1) line 99 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 100 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-f[0m, [1m-fn[0m, and [1m-fa[0m[m
+[3m Manual page screen(1) line 103 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            turns flow-control on, off, or "automatic switching mode".  This can also be[m
+[3m Manual page screen(1) line 104 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            defined through the "defflow" .screenrc command.[m
+[3m Manual page screen(1) line 105 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 106 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-h[0m [4mnum[24m[m
+[3m Manual page screen(1) line 107 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            Specifies the history scrollback buffer to be [4mnum[24m lines high.[m
+[3m Manual page screen(1) line 108 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 109 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-i[0m   will cause the interrupt key (usually C-c) to interrupt the display  immedi‐[m
+[3m Manual page screen(1) line 110 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            ately  when  flow-control  is  on.   See the "defflow" .screenrc command for[m
+[3m Manual page screen(1) line 111 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            details.  The use of this option is discouraged.[m
+[3m Manual page screen(1) line 112 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 113 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-l[0m and [1m-ln[0m[m
+[3m Manual page screen(1) line 114 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            turns login mode on or off (for /var/run/utmp updating).  This can  also  be[m
+[3m Manual page screen(1) line 115 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            defined through the "deflogin" .screenrc command.[m
+[3m Manual page screen(1) line 116 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K[m
+[3m Manual page screen(1) line 117 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-ls[0m [[4mmatch[24m][m
+[3m Manual page screen(1) line 118 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K       [1m-list[0m [[4mmatch[24m][m
+[3m Manual page screen(1) line 119 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            does  not  start  [4mscreen[24m, but prints a list of [4mpid.tty.host[24m strings and cre‐[m
+[3m Manual page screen(1) line 120 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            ation  timestamps  identifying  your  [4mscreen[24m  sessions.    Sessions   marked[m
+[3m Manual page screen(1) line 121 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            `detached' can be resumed with "screen -r". Those marked `attached' are run‐[m
+[3m Manual page screen(1) line 122 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            ning and have a controlling terminal. If the session runs in multiuser mode,[m
+[3m Manual page screen(1) line 123 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            it is marked `multi'. Sessions marked as `unreachable' either live on a dif‐[m
+[3m Manual page screen(1) line 124 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            ferent host or are `dead'.  An unreachable session is considered dead,  when[m
+[3m Manual page screen(1) line 125 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            its name matches either the name of the local host, or the specified parame‐[m
+[3m Manual page screen(1) line 126 (press h for help or q to quit)[23m[K[K [KESCESC[KOO[KBB[K            ter, if any.  See the [1m-r[0m flag for a description how  to  construct  matches.[m
+[3m Manual page screen(1) line 127 (press h for help or q to quit)[23m[K[K[?1l>[?1049lroot@Nagasaki:/home/nuacm# screen -list
+There are screens on:
+	3592.pts-4.Nagasaki	(11/14/2015 06:08:51 PM)	(Attached)
+	3559.pts-3.Nagasaki	(11/14/2015 06:07:47 PM)	(Attached)
+2 Sockets in /var/run/screen/S-root.
+
+root@Nagasaki:/home/nuacm# screen -r 3558
+There is no screen to be resumed matching 3558.
+root@Nagasaki:/home/nuacm# screen -r 3558.pts-3.Nagasaki
+There is no screen to be resumed matching 3558.pts-3.Nagasaki.
+root@Nagasaki:/home/nuacm# screen -r 3558.pts-3.Nagasaki[1P.pts-3.Nagasaki9.pts-3.Nagasaki
+There is a screen on:
+	3559.pts-3.Nagasaki	(11/14/2015 06:07:48 PM)	(Attached)
+There is no screen to be resumed matching 3559.pts-3.Nagasaki.
+root@Nagasaki:/home/nuacm# screen -list
+There are screens on:
+	3592.pts-4.Nagasaki	(11/14/2015 06:08:52 PM)	(Attached)
+	3559.pts-3.Nagasaki	(11/14/2015 06:07:48 PM)	(Attached)
+2 Sockets in /var/run/screen/S-root.
+
+root@Nagasaki:/home/nuacm# screeb 0[K[K[Kn-r[K[K -r 3559
+There is a screen on:
+	3559.pts-3.Nagasaki	(11/14/2015 06:07:48 PM)	(Attached)
+There is no screen to be resumed matching 3559.
+root@Nagasaki:/home/nuacm# screen -r 3559[2Plistr 3559.pts-3.Nagasaki
+)0[?1049h[4l[?1h=[0m(B[1;52r[H[J[H[J[18Broot@Nagasaki:/home/nuacm# ./firewall.sh
+iptables: Chain already exists.
+Added: 100bao   mark=5
+Added: ares[5Cmark=5
+Added: audiogalaxy[6Cmark=5
+Added: bittorrent[7Cmark=5
+Added: directconnect[4Cmark=5
+Added: edonkey  mark=5
+Added: fasttrack[8Cmark=5
+Added: gnutella mark=5
+Added: mute[5Cmark=5
+Added: poco[5Cmark=5
+Added: shoutcast[8Cmark=5
+Added: soulseek mark=5
+Added: tesla[4Cmark=5
+Added: gnutella mark=5
+Added: tor[6Cmark=5
+Added: imap[5Cmark=6
+Added: aim[6Cmark=6
+Added: smtp[5Cmark=6
+Added: dns[6Cmark=6
+Added: validcertssl[5Cmark=6
+Added: ipp[6Cmark=6
+Added: ssdp[5Cmark=6
+Added: telnet   mark=6
+Added: zmaap[4Cmark=6
+Added: yahoo[4Cmark=6
+Added: msnmessenger[5Cmark=6
+Added: ssl[6Cmark=6
+Added: ssh[6Cmark=6
+Added: http[5Cmark=6
+error during nfq_create_queue()
+Input IP Address to UNBAN
+[?1l>[52;1H
+[?1049l[remote detached from 3559.pts-3.Nagasaki]
+root@Nagasaki:/home/nuacm# 
+Broadcast message from root@Nagasaki (Sun Nov 15 03:05:30 2015):
+
+Power button pressed 
+The system is going down for system halt NOW!
